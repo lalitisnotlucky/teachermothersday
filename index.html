@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Mother's Day</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #fffdf0;
+    --blush: #f5d96b;
+    --rose: #d4a017;
+    --deep: #4a3800;
+    --gold: #e8c040;
+    --text: #3a2e00;
+    --name-pop: #ffc400; 
+    --gold-bright: #ffd700; 
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--text);
+    font-family: 'Cormorant Garamond', serif;
+    overflow-x: hidden;
+    zoom: 1.75; 
+    -moz-transform: scale(1.75); 
+    -moz-transform-origin: 0 0;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 60% 40% at 10% 20%, rgba(245,217,107,0.22) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 50% at 90% 80%, rgba(232,192,64,0.15) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .hero {
+    position: relative;
+    min-height: 60vh; 
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 1rem 2rem;
+    z-index: 1;
+  }
+
+  .petals {
+    position: absolute; inset: 0; overflow: hidden; z-index: 0;
+  }
+
+  .petal {
+    position: absolute;
+    width: 18px; height: 24px;
+    border-radius: 50% 0 50% 0;
+    opacity: 0;
+    animation: fall linear infinite;
+  }
+
+  @keyframes fall {
+    0%   { transform: translateY(-60px) rotate(0deg); opacity: 0.7; }
+    100% { transform: translateY(3000px) rotate(1440deg); opacity: 0; }
+  }
+
+  .small-label {
+    font-size: 0.8rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 0.5rem;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.3s forwards;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 7vw, 5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--deep);
+    opacity: 0;
+    animation: fadeUp 1.1s ease 0.5s forwards;
+  }
+
+  .hero-sub {
+    font-size: 1rem;
+    font-style: italic;
+    color: var(--rose);
+    margin-top: 0.8rem;
+    max-width: 450px;
+    line-height: 1.5;
+    opacity: 0;
+    animation: fadeUp 1.1s ease 0.8s forwards;
+  }
+
+  .scroll-hint {
+    position: relative; margin-top: 1.5rem;
+    font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0;
+    animation: fadeIn 1s ease 2s forwards;
+  }
+
+  .divider {
+    display: flex; align-items: center; justify-content: center;
+    gap: 1rem; margin: 0 auto 1.5rem;
+    color: var(--gold);
+  }
+  .divider::before, .divider::after {
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold));
+  }
+
+  section {
+    position: relative; z-index: 1;
+    max-width: 860px; margin: 0 auto;
+    padding: 2.5rem 2rem;
+  }
+
+  section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-style: italic;
+    color: var(--deep);
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .message-card {
+    background: rgba(255,255,255,0.65);
+    border: 1px solid rgba(201,169,110,0.3);
+    padding: 2rem;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text);
+  }
+
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+  }
+
+  .photo-slot {
+    aspect-ratio: 4/3;
+    border: 1px solid rgba(201,169,110,0.3);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  
+  .photo-slot:hover { transform: scale(1.02); }
+  .photo-slot img { width: 100%; height: 100%; object-fit: cover; }
+
+  .video-wrapper {
+    background: transparent;
+    max-width: 250px; 
+    margin: 0 auto;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+  }
+
+  .lightbox {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.92);
+    z-index: 1000;
+    display: none;
+    align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .lightbox.active { display: flex; opacity: 1; }
+  .lightbox img { max-width: 90%; max-height: 85%; border: 3px solid white; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+  
+  .close-btn {
+    position: absolute; top: 20px; right: 30px;
+    color: white; font-size: 40px; font-weight: bold;
+    cursor: pointer; z-index: 1001; line-height: 1;
+  }
+
+  .reasons { display: grid; gap: 1rem; }
+  .reason {
+    display: flex; align-items: flex-start; gap: 1.2rem;
+    padding: 1.2rem;
+    background: rgba(255,255,255,0.55);
+    border: 1px solid rgba(201,169,110,0.2);
+  }
+
+  .reason-num { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--gold); flex-shrink: 0; }
+
+  .closing { text-align: center; padding: 4rem 2rem 6rem; }
+  .closing .big-wish { font-family: 'Playfair Display', serif; font-size: 3.5rem; font-style: italic; color: var(--deep); line-height: 1.2; }
+  
+  .closing .mama-name {
+    color: var(--name-pop);
+    font-weight: bold;
+    font-size: 3.7rem;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+  }
+
+  .closing .highlight-name { 
+    font-family: 'Playfair Display', serif; 
+    font-weight: 700; 
+    font-size: 1.5rem;
+    color: var(--gold-bright);
+    border-bottom: 2px solid var(--blush); 
+  }
+  
+  .heart { display: inline-block; animation: heartbeat 1.4s ease infinite; color: var(--rose); }
+
+  @keyframes heartbeat { 0%,100% { transform: scale(1); } 14% { transform: scale(1.2); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .reveal { opacity: 0; transform: translateY(20px); transition: 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="petals" id="petals"></div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <span class="close-btn">&times;</span>
+  <img id="lightbox-img" src="" alt="Enlarged" onclick="event.stopPropagation()">
+</div>
+
+<div class="hero">
+  <p class="small-label">A Tribute for</p>
+  <h1>M♡ther's Day</h1>
+  <p class="hero-sub">To someone who nurtures, guides, and inspires — in more ways than one.</p>
+  <div class="scroll-hint">scroll ↓</div>
+</div>
+
+<section class="reveal">
+  <h2>From the heart</h2>
+  <div class="divider">✿</div>
+  <div class="message-card">
+    <p>There are teachers who instruct, and then there are teachers who truly <em>shape</em> you. You've been the latter — and on this Mother's Day, I want you to know that your warmth, your patience, and the way you show up has meant more than words can hold.</p>
+    <br>
+    <p>You deserve to be celebrated today — as a mother, as a mentor, and as the remarkable human being that you are. Wishing you a day filled with all the love and joy you give so freely to others.</p>
+  </div>
+</section>
+
+<section class="reveal">
+  <h2>Why you're remarkable</h2>
+  <div class="divider">✿</div>
+  <div class="reasons">
+    <div class="reason"><span class="reason-num">01</span><p>Your patience is extraordinary — you never make anyone feel small for not knowing something yet.</p></div>
+    <div class="reason"><span class="reason-num">02</span><p>You lead with kindness and somehow still get things done beautifully.</p></div>
+    <div class="reason"><span class="reason-num">03</span><p>You show what it looks like to balance strength and grace at the same time.</p></div>
+    <div class="reason"><span class="reason-num">04</span><p>Your children and we are lucky — we have a mama who shares the love of God with us.</p></div>
+  </div>
+</section>
+
+<section class="reveal">
+  <h2>Memories & Moments</h2>
+  <div class="divider">✿</div>
+  <div class="photo-grid">
+    <div class="photo-slot" onclick="openLightbox('IMG-20260509-WA0003.jpg')"><img src="IMG-20260509-WA0003.jpg"></div>
+    <div class="photo-slot" onclick="openLightbox('IMG-20260509-WA0004(1).jpg')"><img src="IMG-20260509-WA0004(1).jpg"></div>
+    <div class="photo-slot" onclick="openLightbox('IMG-20260509-WA0005.jpg')"><img src="IMG-20260509-WA0005.jpg"></div>
+  </div>
+</section>
+
+<section class="reveal">
+  <h2>A little something special</h2>
+  <div class="divider">✿</div>
+  <div class="video-wrapper">
+    <iframe 
+      width="250" 
+      height="444" 
+      src="https://www.youtube.com/embed/OnoJV6MvDW0" 
+      title="Mother's Day Special" 
+      frameborder="0" 
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+      allowfullscreen
+      style="border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+    </iframe>
+  </div>
+</section>
+
+<div class="closing reveal">
+  <div class="big-wish">Happy Mother's Day, <br> <span class="mama-name">Mama Vicky!</span></div>
+  <p class="signature">With love &nbsp;<span class="heart">♥</span>&nbsp; <em>Your grateful daughter - <span class="highlight-name">Pavani</span> 💛</em></p>
+</div>
+
+<script>
+/* Petals */
+(function() {
+  const colors = ['#f5d96b','#e8c040','#d4a017','#f7e49a'];
+  const container = document.getElementById('petals');
+  for (let i = 0; i < 60; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    p.style.cssText = `left: ${Math.random()*100}%; top: ${-Math.random()*20}%; background: ${colors[Math.floor(Math.random()*colors.length)]}; width: ${10+Math.random()*10}px; height: ${14+Math.random()*10}px; animation-duration: ${8+Math.random()*12}s; animation-delay: ${Math.random()*10}s; border-radius: 50% 0 50% 0; opacity: 0.6;`;
+    container.appendChild(p);
+  }
+})();
+
+/* Lightbox Functions */
+function openLightbox(src) {
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox').classList.add('active');
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('active');
+}
+
+/* Scroll Reveal */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
